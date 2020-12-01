@@ -24,4 +24,8 @@ defmodule Aoc2020.Day01 do
   def part1(input) do
     input |> find_with_sum(2020) |> Enum.reduce(&Kernel.*/2)
   end
+
+  def part2(input) do
+    input |> find_with_sum(2020, 3) |> Enum.reduce(&Kernel.*/2)
+  end
 end

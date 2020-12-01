@@ -1,5 +1,5 @@
 defmodule Aoc2020Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   doctest Aoc2020
 
   test "greets the world" do
