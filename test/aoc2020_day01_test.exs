@@ -17,8 +17,8 @@ defmodule Aoc2020Day01Test do
   ]
 
   test "find pair with sum" do
-    assert Day01.find_with_sum([100, 200, 10, 20], 110) == {100, 10}
-    assert Day01.find_with_sum(@example_data, 2020) == {1721, 299}
+    assert Day01.find_with_sum([100, 200, 10, 20], 110) == [100, 10]
+    assert Day01.find_with_sum(@example_data, 2020) == [1721, 299]
   end
 
   test "p1: default examples" do
