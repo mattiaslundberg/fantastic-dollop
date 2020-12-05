@@ -41,13 +41,7 @@ defmodule Aoc2020Day05Test do
     assert Day05.part1(@full_data) == 806
   end
 
-  @tag :skip
-  test "p2: default examples" do
-    assert Day05.part2(@example_data) == 1
-  end
-
-  @tag :skip
   test "p2: full" do
-    assert Day05.part2(@full_data) == 249
+    assert Day05.part2(@full_data) == 562
   end
 end

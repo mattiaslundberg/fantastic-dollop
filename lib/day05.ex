@@ -3,8 +3,16 @@ defmodule Aoc2020.Day05 do
     strs |> Enum.map(&find_seat/1) |> Enum.max()
   end
 
-  def part2(_input) do
-    :ok
+  def part2(strs) do
+    seats = strs |> Enum.map(&find_seat/1) |> Enum.sort()
+
+    Enum.reduce_while(seats, List.first(seats), fn s, last ->
+      if last + 1 < s do
+        {:halt, last + 1}
+      else
+        {:cont, s}
+      end
+    end)
   end
 
   def find_row(_, v, v), do: v
