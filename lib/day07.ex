@@ -46,9 +46,11 @@ defmodule Aoc2020.Day07 do
   def count_contains(expected, _, expected), do: true
 
   def count_contains(checking, rules, expected) do
-    allowed_in = rules |> Map.get(checking) |> Map.keys()
-
-    allowed_in |> Enum.map(&count_contains(&1, rules, expected)) |> Enum.any?()
+    rules
+    |> Map.get(checking)
+    |> Map.keys()
+    |> Enum.map(&count_contains(&1, rules, expected))
+    |> Enum.any?()
   end
 
   def count_bags(parent, rules) do
