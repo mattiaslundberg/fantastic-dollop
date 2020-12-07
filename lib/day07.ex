@@ -12,8 +12,13 @@ defmodule Aoc2020.Day07 do
     |> Enum.count(&Function.identity/1)
   end
 
-  def part2(_) do
-    :ok
+  def part2(input) do
+    rules =
+      input
+      |> Enum.map(&parse_line/1)
+      |> Map.new()
+
+    count_bags("shiny gold", rules) - 1
   end
 
   def parse_line(line) do
@@ -46,5 +51,15 @@ defmodule Aoc2020.Day07 do
     allowed_in = rules |> Map.get(checking) |> Map.keys()
 
     allowed_in |> Enum.map(&count_contains(&1, rules, expected)) |> Enum.any?()
+  end
+
+  def count_bags(parent, rules) do
+    count =
+      rules
+      |> Map.get(parent)
+      |> Enum.map(fn {child, count} -> count * count_bags(child, rules) end)
+      |> Enum.sum()
+
+    count + 1
   end
 end

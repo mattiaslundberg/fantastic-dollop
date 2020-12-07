@@ -10,6 +10,10 @@ defmodule Aoc2020Day07Test do
                 |> String.trim()
                 |> String.split("\n")
 
+  @example_data2 File.read!("inputs/day07_example2.txt")
+                 |> String.trim()
+                 |> String.split("\n")
+
   test "parse lines" do
     assert Day07.parse_line(Enum.at(@example_data, 0)) ==
              {"light red", %{"bright white" => 1, "muted yellow" => 2}}
@@ -51,13 +55,12 @@ defmodule Aoc2020Day07Test do
     assert Day07.part1(@full_data) == 101
   end
 
-  @tag :skip
   test "p2: default example" do
-    assert Day07.part2(@example_data) == 6
+    assert Day07.part2(@example_data) == 32
+    assert Day07.part2(@example_data2) == 126
   end
 
-  @tag :skip
   test "p2: full" do
-    assert Day07.part2(@full_data) == 3276
+    assert Day07.part2(@full_data) == 108_636
   end
 end
