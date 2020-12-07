@@ -1,9 +1,6 @@
 defmodule Aoc2020.Day07 do
   def part1(input) do
-    rules =
-      input
-      |> Enum.map(&parse_line/1)
-      |> Map.new()
+    rules = parse_input(input)
 
     rules
     |> Map.delete("shiny gold")
@@ -13,12 +10,13 @@ defmodule Aoc2020.Day07 do
   end
 
   def part2(input) do
-    rules =
-      input
-      |> Enum.map(&parse_line/1)
-      |> Map.new()
+    count_bags("shiny gold", parse_input(input)) - 1
+  end
 
-    count_bags("shiny gold", rules) - 1
+  def parse_input(input) do
+    input
+    |> Enum.map(&parse_line/1)
+    |> Map.new()
   end
 
   def parse_line(line) do
