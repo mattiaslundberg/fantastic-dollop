@@ -1,6 +1,6 @@
 defmodule Aoc2020.Day08 do
   def part1(input) do
-    input |> Enum.map(&parse/1) |> run_program(0, 0, [])
+    input |> Enum.map(&parse/1) |> run_until_loop(0, 0, [])
   end
 
   def part2(_input) do
@@ -12,7 +12,7 @@ defmodule Aoc2020.Day08 do
     {op, String.to_integer(count)}
   end
 
-  defp run_program(instructions, loc, acc, visited) do
+  defp run_until_loop(instructions, loc, acc, visited) do
     [loc, acc] =
       instructions
       |> Enum.at(loc)
@@ -21,7 +21,7 @@ defmodule Aoc2020.Day08 do
     if Enum.member?(visited, loc) do
       acc
     else
-      run_program(instructions, loc, acc, [loc | visited])
+      run_until_loop(instructions, loc, acc, [loc | visited])
     end
   end
 
