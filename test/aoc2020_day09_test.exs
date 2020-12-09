@@ -28,13 +28,20 @@ defmodule Aoc2020Day09Test do
     assert Day09.part1(@full_data, 25) == 1_124_361_034
   end
 
-  @tag :skip
-  test "p2: default example" do
-    assert Day09.part2(@example_data) == 8
+  test "find_sum" do
+    assert Day09.find_sum(0, [1, 2, 2, 9, 4], 5, []) == 3
+    assert Day09.find_sum(0, [3, 4, 9, 2], 18, []) == 11
+    assert Day09.find_sum(0, [4, 3, 9, 2], 18, []) == 11
   end
 
-  @tag :skip
+  test "p2: default example" do
+    assert Day09.part2(@example_data, 127) == 62
+  end
+
   test "p2: full" do
-    assert Day09.part2(@full_data) == 1036
+    res = Day09.part2(@full_data, 1_124_361_034)
+    assert res > 122_438_900
+    assert res != 2_429_079_910
+    assert res == 129_444_555
   end
 end
