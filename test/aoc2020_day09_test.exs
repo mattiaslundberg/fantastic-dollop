@@ -12,14 +12,6 @@ defmodule Aoc2020Day09Test do
                 |> String.split("\n")
                 |> Enum.map(&String.to_integer/1)
 
-  test "check list" do
-    assert Day09.check_list([1, 1], [1]) == [false]
-    assert Day09.check_list([1, 9], [1]) == [false]
-    assert Day09.check_list([1, 9], [1]) == [false]
-    assert Day09.check_list([1, 3], [4]) == [true]
-    assert Day09.check_list([1, 2, 3, 4, 5], [1, 5, 3]) == [false, true, false]
-  end
-
   test "p1: default example" do
     assert Day09.part1(@example_data, 5) == 127
   end
