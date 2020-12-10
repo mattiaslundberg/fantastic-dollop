@@ -43,6 +43,6 @@ defmodule Aoc2020Day10Test do
   end
 
   test "p2: full" do
-    assert Day10.part2(@full_data) == :ok
+    assert Day10.part2(@full_data) == 8_099_130_339_328
   end
 end

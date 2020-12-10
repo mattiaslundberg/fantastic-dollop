@@ -12,11 +12,9 @@ defmodule Aoc2020.Day10 do
   end
 
   def part2(converters) do
-    max = expected_output(converters)
-
     converters
     |> Enum.sort()
-    |> find_converters_cached(0, 0, max, %{})
+    |> find_converters_cached(0, 0, expected_output(converters), %{})
     |> elem(0)
   end
 
@@ -26,23 +24,15 @@ defmodule Aoc2020.Day10 do
   def expected_output(converters), do: Enum.max(converters) + 3
 
   def find_converters_cached(lst, i, curr, max, cache) do
-    cached = Map.get(cache, {i, curr})
-
     cond do
-      not is_nil(cached) ->
-        {cached, cache}
+      Map.has_key?(cache, {i, curr}) ->
+        {Map.get(cache, {i, curr}), cache}
 
       length(lst) <= i ->
-        v =
-          if curr + 3 < max do
-            0
-          else
-            1
-          end
-
+        v = if curr + 3 < max, do: 0, else: 1
         {v, cache}
 
-      curr > max or curr + 3 < Enum.at(lst, i) ->
+      curr + 3 < Enum.at(lst, i) ->
         {0, cache}
 
       true ->
@@ -51,16 +41,5 @@ defmodule Aoc2020.Day10 do
         res = used + not_used
         {res, Map.put(cache, {i, curr}, res)}
     end
-  end
-
-  def find_converters(_, curr, max) when curr > max, do: 0
-  def find_converters([converter | _], curr, _max) when curr + 3 < converter, do: 0
-  def find_converters([], curr, max) when curr + 3 < max, do: 0
-  def find_converters([], _, _), do: 1
-
-  def find_converters([converter | rest], curr, max) do
-    used = find_converters(rest, converter, max)
-    not_used = find_converters(rest, curr, max)
-    used + not_used
   end
 end
