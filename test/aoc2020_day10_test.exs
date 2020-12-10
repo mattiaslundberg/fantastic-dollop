@@ -42,7 +42,6 @@ defmodule Aoc2020Day10Test do
     assert Day10.part2(@example_data2) == 19208
   end
 
-  @tag :skip
   test "p2: full" do
     assert Day10.part2(@full_data) == :ok
   end
