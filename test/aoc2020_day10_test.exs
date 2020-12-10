@@ -34,9 +34,12 @@ defmodule Aoc2020Day10Test do
     assert Day10.part1(@full_data) == 1848
   end
 
-  @tag :skip
-  test "p2: default example" do
-    assert Day10.part2(@example_data1) == :ok
+  test "p2: default example 1" do
+    assert Day10.part2(@example_data1) == 8
+  end
+
+  test "p2: default example 2" do
+    assert Day10.part2(@example_data2) == 19208
   end
 
   @tag :skip
