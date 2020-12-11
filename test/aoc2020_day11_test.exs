@@ -17,7 +17,7 @@ defmodule Aoc2020Day11Test do
         ".##",
         "#.#"
       ]
-      |> Day11.into_map()
+      |> Day11.transform(3)
 
     assert Day11.count_neighbors(input, 0, 0, 10) == 1
     assert Day11.count_neighbors(input, 1, 0, 10) == 3
@@ -32,7 +32,7 @@ defmodule Aoc2020Day11Test do
         ".##.",
         "#.#."
       ]
-      |> Day11.into_map()
+      |> Day11.transform(4)
 
     assert Day11.count_neighbors(input, 0, 0, 10) == 1
     assert Day11.count_neighbors(input, 0, 3, 10) == 2
@@ -46,7 +46,7 @@ defmodule Aoc2020Day11Test do
         ".##",
         "#.#"
       ]
-      |> Day11.into_map()
+      |> Day11.transform(3)
 
     assert Day11.count_directions(input, 1, 1, 5) == 5
     assert Day11.count_directions(input, 1, 1, 3) == 3
