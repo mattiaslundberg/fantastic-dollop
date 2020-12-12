@@ -34,16 +34,15 @@ defmodule Aoc2020.Day12 do
   def move({:forward, amount}, {a, b, :north}), do: {a + amount, b, :north}
   def move({:forward, amount}, {a, b, :south}), do: {a - amount, b, :south}
   def move({:forward, amount}, {a, b, :west}), do: {a, b - amount, :west}
-  def move({:right, amount}, {a, b, direction}), do: rotate(&Kernel.+/2, amount, a, b, direction)
-  def move({:left, amount}, {a, b, direction}), do: rotate(&Kernel.-/2, amount, a, b, direction)
+  def move({:right, amount}, {a, b, direction}), do: rotate(amount, a, b, direction)
+  def move({:left, amount}, {a, b, direction}), do: rotate(360 - amount, a, b, direction)
   def move({:north, amount}, {a, b, current_direction}), do: {a + amount, b, current_direction}
   def move({:south, amount}, {a, b, current_direction}), do: {a - amount, b, current_direction}
   def move({:east, amount}, {a, b, current_direction}), do: {a, b + amount, current_direction}
   def move({:west, amount}, {a, b, current_direction}), do: {a, b - amount, current_direction}
 
-  defp rotate(move_fn, amount, a, b, direction) do
-    current_index = Enum.find_index(@directions, fn v -> v == direction end)
-    new_direction = Enum.at(@directions, rem(move_fn.(current_index, round(amount / 90)), 4))
-    {a, b, new_direction}
+  defp rotate(amount, a, b, direction) do
+    new_index = Enum.find_index(@directions, &(&1 == direction)) + round(amount / 90)
+    {a, b, Enum.at(@directions, rem(new_index, 4))}
   end
 end
