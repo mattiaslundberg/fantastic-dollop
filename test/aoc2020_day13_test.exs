@@ -12,7 +12,7 @@ defmodule Aoc2020Day13Test do
   ]
 
   test "parse" do
-    assert [939, [7, 13, 59, 31, 19]] = Day13.parse(@example_data)
+    assert [939, [7, 13, 1, 1, 59, 1, 31, 19]] = Day13.parse(@example_data)
   end
 
   test "best for bus" do
@@ -29,13 +29,31 @@ defmodule Aoc2020Day13Test do
     assert Day13.part1(@full_data) == 3606
   end
 
-  @tag :skip
   test "p2: default example" do
-    assert Day13.part2(@example_data) == :ok
+    assert Day13.part2(@example_data) == 1_068_781
   end
 
-  @tag :skip
+  test "extra example 1" do
+    assert Day13.part2(["1", "17,x,13,19"]) == 3417
+  end
+
+  test "extra example 2" do
+    assert Day13.part2(["1", "67,7,59,61"]) == 754_018
+  end
+
+  test "extra example 3" do
+    assert Day13.part2(["1", "67,x,7,59,61"]) == 779_210
+  end
+
+  test "extra example 4" do
+    assert Day13.part2(["1", "67,7,x,59,61"]) == 1_261_476
+  end
+
+  test "extra example 5" do
+    assert Day13.part2(["1", "1789,37,47,1889"]) == 1_202_161_486
+  end
+
   test "p2: full" do
-    assert Day13.part2(@full_data) == :ok
+    assert Day13.part2(@full_data) == 379_786_358_533_423
   end
 end
