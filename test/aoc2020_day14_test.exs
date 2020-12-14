@@ -13,6 +13,13 @@ defmodule Aoc2020Day14Test do
     "mem[8] = 0"
   ]
 
+  @example_2 [
+    "mask = 000000000000000000000000000000X1001X",
+    "mem[42] = 100",
+    "mask = 00000000000000000000000000000000X0XX",
+    "mem[26] = 1"
+  ]
+
   test "parse" do
     assert Day14.parse("mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X") ==
              [:mask, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X"]
@@ -36,13 +43,37 @@ defmodule Aoc2020Day14Test do
     assert Day14.part1(@full_data) == 13_476_250_121_721
   end
 
-  @tag :skip
-  test "p2: default example" do
-    assert Day14.part2(@example_data) == :ok
+  test "get addresses" do
+    assert Day14.get_addresses("000", "111") == ["111"]
+    assert Day14.get_addresses("111", "000") == ["111"]
+    assert Day14.get_addresses("X11", "111") == ["111", "011"]
+    assert Day14.get_addresses("01X", "111") == ["111", "110"]
+
+    assert Day14.get_addresses("0XX", "111") |> Enum.sort() ==
+             ["111", "110", "101", "100"] |> Enum.sort()
+
+    assert Day14.get_addresses(
+             "000000000000000000000000000000X1001X",
+             "000000000000000000000000000000101010"
+           )
+           |> Enum.map(&String.to_integer(&1, 2))
+           |> Enum.sort() ==
+             [26, 27, 58, 59]
+
+    assert Day14.get_addresses(
+             "00000000000000000000000000000000X0XX",
+             "000000000000000000000000000000011010"
+           )
+           |> Enum.map(&String.to_integer(&1, 2))
+           |> Enum.sort() ==
+             [16, 17, 18, 19, 24, 25, 26, 27]
   end
 
-  @tag :skip
+  test "p2: default example" do
+    assert Day14.part2(@example_2) == 208
+  end
+
   test "p2: full" do
-    assert Day14.part2(@full_data) == :ok
+    assert Day14.part2(@full_data) == 4_463_708_436_768
   end
 end
