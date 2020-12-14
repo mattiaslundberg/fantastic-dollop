@@ -15,11 +15,7 @@ defmodule Aoc2020.Day14 do
   end
 
   def parse("mask = " <> mask), do: [:mask, mask]
-
-  def parse("mem[" <> str) do
-    [addr, val] = String.split(str, "] = ")
-    [String.to_integer(addr), to_bitstring(val)]
-  end
+  def parse("mem[" <> str), do: str |> String.split("] = ") |> Enum.map(&to_bitstring/1)
 
   def to_bitstring(s),
     do: s |> String.to_integer() |> Integer.to_string(2) |> String.pad_leading(36, "0")
@@ -37,10 +33,9 @@ defmodule Aoc2020.Day14 do
   def run_program2([:mask, value], {_mask, acc}), do: {value, acc}
 
   def run_program2([addr, value], {mask, acc}) do
-    a = addr |> Integer.to_string(2) |> String.pad_leading(36, "0")
-    all_addresses = get_addresses(mask, a)
+    new_map =
+      mask |> get_addresses(addr) |> Enum.reduce(acc, fn a, acc -> Map.put(acc, a, value) end)
 
-    new_map = Enum.reduce(all_addresses, acc, fn a, acc -> Map.put(acc, a, value) end)
     {mask, new_map}
   end
 

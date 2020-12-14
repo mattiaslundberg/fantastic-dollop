@@ -24,8 +24,15 @@ defmodule Aoc2020Day14Test do
     assert Day14.parse("mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X") ==
              [:mask, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X"]
 
-    assert Day14.parse("mem[8] = 11") == [8, "000000000000000000000000000000001011"]
-    assert Day14.parse("mem[8888] = 11") == [8888, "000000000000000000000000000000001011"]
+    assert Day14.parse("mem[8] = 11") == [
+             "000000000000000000000000000000001000",
+             "000000000000000000000000000000001011"
+           ]
+
+    assert Day14.parse("mem[8888] = 11") == [
+             "000000000000000000000010001010111000",
+             "000000000000000000000000000000001011"
+           ]
   end
 
   test "apply mask" do
