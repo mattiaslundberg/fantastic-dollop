@@ -6,24 +6,18 @@ defmodule Aoc2020.Day15 do
   def find_spoken_at(_, target, target, last, _), do: last
 
   def find_spoken_at([n | nr], target, turn, _last, cache) do
-    cache = Map.update(cache, n, [turn], fn v -> [turn | v] end)
-
+    cache = update_cache(cache, n, turn)
     find_spoken_at(nr, target, turn + 1, n, cache)
   end
 
   def find_spoken_at([], target, turn, last, cache) do
-    new = get_number_to_say(last, cache)
-    cache = Map.update(cache, new, [turn], fn v -> [turn | v] end)
+    new = cache |> Map.get(last) |> number_to_say()
+    cache = update_cache(cache, new, turn)
     find_spoken_at([], target, turn + 1, new, cache)
   end
 
-  def get_number_to_say(last, cache) do
-    case Map.get(cache, last) do
-      [v, vv | _] ->
-        v - vv
+  def number_to_say([v, vv | _]), do: v - vv
+  def number_to_say(_), do: 0
 
-      _ ->
-        0
-    end
-  end
+  def update_cache(cache, new, turn), do: Map.update(cache, new, [turn], fn v -> [turn | v] end)
 end
