@@ -4,16 +4,6 @@ defmodule Aoc2020Day15Test do
 
   @full_data [0, 5, 4, 1, 10, 14, 7]
 
-  test "get number to say" do
-    assert Day15.get_number_to_say(4, [6, 3, 0]) == 0
-    assert Day15.get_number_to_say(5, [0, 6, 3, 0]) == 3
-    assert Day15.get_number_to_say(6, [3, 0, 6, 3, 0]) == 3
-    assert Day15.get_number_to_say(7, [3, 3, 0, 6, 3, 0]) == 1
-    assert Day15.get_number_to_say(8, [1, 3, 3, 0, 6, 3, 0]) == 0
-    assert Day15.get_number_to_say(9, [0, 1, 3, 3, 0, 6, 3, 0]) == 4
-    assert Day15.get_number_to_say(10, [4, 0, 1, 3, 3, 0, 6, 3, 0]) == 0
-  end
-
   test "p1: default examples" do
     assert Day15.part1([0, 3, 6]) == 436
     assert Day15.part1([1, 3, 2]) == 1
@@ -30,11 +20,17 @@ defmodule Aoc2020Day15Test do
 
   @tag :skip
   test "p2: default example" do
-    # assert Day15.part2(@example_data) == :ok
+    assert Day15.part2([0, 3, 6]) == 175_594
+    assert Day15.part2([1, 3, 2]) == 2578
+    assert Day15.part2([2, 1, 3]) == 3_544_142
+    assert Day15.part2([1, 2, 3]) == 261_214
+    assert Day15.part2([2, 3, 1]) == 6_895_259
+    assert Day15.part2([3, 2, 1]) == 18
+    assert Day15.part2([3, 1, 2]) == 362
   end
 
   @tag :skip
   test "p2: full" do
-    assert Day15.part2(@full_data) == :ok
+    assert Day15.part2(@full_data) == 9_007_186
   end
 end
