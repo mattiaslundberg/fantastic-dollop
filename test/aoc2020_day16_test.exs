@@ -10,9 +10,9 @@ defmodule Aoc2020Day16Test do
                 |> String.trim()
                 |> String.split("\n\n")
 
-  test "parse_restriction" do
-    assert Day16.parse_restriction("class: 1-3 or 5-7") == {"class", [7, 6, 5, 3, 2, 1]}
-  end
+  @example_data2 File.read!("inputs/day16_example2.txt")
+                 |> String.trim()
+                 |> String.split("\n\n")
 
   test "p1: default example" do
     assert Day16.part1(@example_data) == 71
@@ -22,13 +22,13 @@ defmodule Aoc2020Day16Test do
     assert Day16.part1(@full_data) == 21996
   end
 
-  @tag :skip
   test "p2: default example" do
-    assert Day16.part2(@example_data) == :ok
+    assert Day16.part2(@example_data2) == 1
   end
 
-  @tag :skip
   test "p2: full" do
-    assert Day16.part2(@full_data) == :ok
+    res = Day16.part2(@full_data)
+    assert res > 668
+    assert res == 650_080_463_519
   end
 end
