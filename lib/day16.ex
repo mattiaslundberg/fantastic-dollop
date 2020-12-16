@@ -3,40 +3,30 @@ defmodule Aoc2020.Day16 do
     allowed_nums =
       restrictions
       |> parse_restrictions()
-      |> Map.values()
-      |> Enum.reduce(MapSet.new(), fn x, acc ->
-        Enum.reduce(x, acc, &MapSet.put(&2, &1))
-      end)
+      |> get_allowed_nums()
 
     other
     |> parse_tickets()
-    |> Enum.reduce(0, &sum_invalid(&1, &2, allowed_nums))
+    |> Enum.map(&sum_invalid(&1, allowed_nums))
+    |> Enum.sum()
   end
 
   def part2([restrictions, my, other]) do
-    restrictions =
-      restrictions
-      |> parse_restrictions()
+    restrictions = restrictions |> parse_restrictions()
 
-    allowed_nums =
-      restrictions
-      |> Map.values()
-      |> Enum.reduce(MapSet.new(), &MapSet.union(&2, &1))
+    allowed_nums = restrictions |> get_allowed_nums()
 
     valid_tickets =
       other
       |> parse_tickets()
-      |> Enum.filter(fn t ->
-        Enum.all?(t, &MapSet.member?(allowed_nums, &1))
-      end)
-
-    order = get_valid_order(restrictions, valid_tickets)
+      |> Enum.filter(&ticket_valid(&1, allowed_nums))
 
     my = my |> parse_tickets() |> Enum.at(0)
 
-    order
+    restrictions
+    |> get_valid_order(valid_tickets)
     |> elem(0)
-    |> Enum.map(fn {_, v} -> v end)
+    |> Map.values()
     |> Enum.zip(my)
     |> Enum.reduce(1, fn {o, m}, acc ->
       if String.starts_with?(o, "departure") do
@@ -56,13 +46,15 @@ defmodule Aoc2020.Day16 do
     res =
       range
       |> String.split(" or ")
-      |> Enum.reduce([], fn a, acc ->
-        [l, h] = String.split(a, "-") |> Enum.map(&String.to_integer/1)
-        l..h |> Enum.reduce(acc, fn b, acc -> [b | acc] end)
-      end)
+      |> Enum.reduce([], &parse_range/2)
       |> MapSet.new()
 
     {label, res}
+  end
+
+  defp parse_range(a, acc) do
+    [l, h] = String.split(a, "-") |> Enum.map(&String.to_integer/1)
+    l..h |> Enum.reduce(acc, fn b, acc -> [b | acc] end)
   end
 
   def parse_tickets(input),
@@ -70,30 +62,31 @@ defmodule Aoc2020.Day16 do
 
   def parse_ticket(ticket), do: ticket |> String.split(",") |> Enum.map(&String.to_integer/1)
 
-  def sum_invalid(lst, acc, allowed_nums) do
-    res =
-      lst
-      |> Enum.reject(&MapSet.member?(allowed_nums, &1))
-      |> Enum.sum()
-
-    res + acc
+  def sum_invalid(lst, allowed_nums) do
+    lst
+    |> Enum.reject(&MapSet.member?(allowed_nums, &1))
+    |> Enum.sum()
   end
+
+  defp ticket_valid(t, allowed_nums), do: Enum.all?(t, &MapSet.member?(allowed_nums, &1))
+
+  def get_allowed_nums(restrictions),
+    do: restrictions |> Map.values() |> Enum.reduce(MapSet.new(), &MapSet.union(&2, &1))
 
   def get_valid_order(restrictions, valid_tickets) do
     valid_tickets
     |> Enum.reduce(Map.new(), &update_with_ticket(&1, &2, restrictions))
     |> Enum.sort(fn {_, v1}, {_, v2} -> MapSet.size(v1) <= MapSet.size(v2) end)
     |> Enum.reduce({Map.new(), MapSet.new()}, fn {index, set}, {map, used} ->
-      [value] = MapSet.difference(set, used) |> MapSet.to_list()
+      [value] = set |> MapSet.difference(used) |> MapSet.to_list()
 
       {Map.put(map, index, value), MapSet.put(used, value)}
     end)
   end
 
   def update_with_ticket(ticket, acc, restrictions) do
-    allowed_for_this = get_allowed_for_ticket(ticket, restrictions)
-
-    allowed_for_this
+    ticket
+    |> get_allowed_for_ticket(restrictions)
     |> Enum.reduce(acc, fn {i, allowed}, acc2 ->
       case Map.get(acc2, i) do
         nil -> Map.put(acc2, i, allowed)
