@@ -37,13 +37,19 @@ defmodule Aoc2020Day17Test do
     assert res == 293
   end
 
-  @tag :skip
-  test "p2: default example" do
-    assert Day17.part2(@example_data) == :ok
+  test "p2: one" do
+    grid = @example_data |> Day17.parse2()
+    one = Day17.run_cycle2(0, grid)
+    assert Day17.count_active(one) == 29
+    two = Day17.run_cycle2(0, one)
+    assert Day17.count_active(two) == 60
   end
 
-  @tag :skip
+  test "p2: default example" do
+    assert Day17.part2(@example_data) == 848
+  end
+
   test "p2: full" do
-    assert Day17.part2(@full_data) == :ok
+    assert Day17.part2(@full_data) == 1816
   end
 end
