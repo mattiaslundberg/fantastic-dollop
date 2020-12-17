@@ -45,10 +45,12 @@ defmodule Aoc2020Day17Test do
     assert Day17.count_active(two) == 60
   end
 
+  @tag :skip
   test "p2: default example" do
     assert Day17.part2(@example_data) == 848
   end
 
+  @tag :skip
   test "p2: full" do
     assert Day17.part2(@full_data) == 1816
   end
