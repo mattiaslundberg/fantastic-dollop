@@ -6,16 +6,35 @@ defmodule Aoc2020Day17Test do
              |> String.trim()
              |> String.split("\n")
 
-  @example_data []
+  @example_data [
+    ".#.",
+    "..#",
+    "###"
+  ]
 
-  @tag :skip
-  test "p1: default example" do
-    assert Day17.part1(@example_data) == :ok
+  test "parse" do
+    assert Day17.parse(@example_data) ==
+             %{
+               {0, 0, 0} => 0,
+               {0, 1, 0} => 1,
+               {0, 2, 0} => 0,
+               {1, 0, 0} => 0,
+               {1, 1, 0} => 0,
+               {1, 2, 0} => 1,
+               {2, 0, 0} => 1,
+               {2, 1, 0} => 1,
+               {2, 2, 0} => 1
+             }
   end
 
-  @tag :skip
+  test "p1: default example" do
+    assert Day17.part1(@example_data) == 112
+  end
+
   test "p1: full" do
-    assert Day17.part1(@full_data) == :ok
+    res = Day17.part1(@full_data)
+    assert res > 237
+    assert res == 293
   end
 
   @tag :skip
