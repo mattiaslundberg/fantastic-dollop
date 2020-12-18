@@ -28,13 +28,12 @@ defmodule Aoc2020Day18Test do
     assert Day18.part2("1 + (2 * 3) + (4 * (5 + 6))") == 51
     assert Day18.part2("2 * 3 + (4 * 5)") == 46
     assert Day18.part2("5 + (8 * 3 + 9 + 3 * 4 * 3)") == 1445
-    assert Day18.part2("5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))") == 66906
+    assert Day18.part2("5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))") == 669_060
     assert Day18.part2("((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2") == 23340
     assert Day18.part2(["1 + 2 * 3 + 4 * 5 + 6", "2 * 3 + (4 * 5)"]) == 231 + 46
   end
 
-  @tag :skip
   test "p2: full" do
-    assert Day18.part2(@full_data) == :ok
+    assert Day18.part2(@full_data) == 362_464_596_624_526
   end
 end
