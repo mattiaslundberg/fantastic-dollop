@@ -8,6 +8,15 @@ defmodule Aoc2020.Day18 do
     end)
   end
 
+  def part2(input) when is_binary(input), do: part2([input])
+
+  def part2(input) do
+    input
+    |> Enum.reduce(0, fn line, acc ->
+      acc + (line |> String.replace(" ", "") |> calc([]))
+    end)
+  end
+
   def calc("", [current]), do: current
 
   def calc("+" <> rest, [prev]), do: calc(rest, [&Kernel.+/2, prev])
@@ -55,9 +64,5 @@ defmodule Aoc2020.Day18 do
       end
 
     [<<char::utf8>> <> inner, remaining]
-  end
-
-  def part2(_input) do
-    :ok
   end
 end
