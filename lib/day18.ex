@@ -13,15 +13,7 @@ defmodule Aoc2020.Day18 do
   def part2(input) do
     input
     |> Enum.reduce(0, fn line, acc ->
-      acc +
-        (line
-         |> String.replace(" ", "")
-         |> IO.inspect()
-         |> calc_add([])
-         |> IO.inspect()
-         |> as_string()
-         |> IO.inspect()
-         |> calc([]))
+      acc + (line |> String.replace(" ", "") |> calc_add([]) |> as_string() |> calc([]))
     end)
   end
 
@@ -30,7 +22,6 @@ defmodule Aoc2020.Day18 do
   def as_string([]), do: ""
 
   def calc_add("", [current]), do: [current]
-
   def calc_add("+" <> rest, [prev]), do: calc_add(rest, [&Kernel.+/2, prev])
   def calc_add("*" <> rest, [prev]), do: [prev, "*" | calc_add(rest, [])]
 
@@ -94,14 +85,9 @@ defmodule Aoc2020.Day18 do
   def find_end(<<char::utf8>> <> r, c) do
     [inner, remaining] =
       case <<char::utf8>> do
-        "(" ->
-          find_end(r, c + 1)
-
-        ")" ->
-          find_end(r, c - 1)
-
-        _ ->
-          find_end(r, c)
+        "(" -> find_end(r, c + 1)
+        ")" -> find_end(r, c - 1)
+        _ -> find_end(r, c)
       end
 
     [<<char::utf8>> <> inner, remaining]
