@@ -47,19 +47,37 @@ defmodule Aoc2020Day19Test do
              %{0 => [[1, 2], [2, 1]], 1 => "a", 2 => "b"},
              ["a", "b"],
              0
-           ) == {true, []}
+           ) == {{true, []}, {false, []}}
 
     assert Day19.matches_rule(
              %{0 => [[1, 2], [2, 1]], 1 => "a", 2 => "b"},
              ["a", "b", "a"],
              0
-           ) == {true, ["a"]}
+           ) == {{true, ["a"]}, {false, []}}
 
     assert Day19.matches_rule(
              %{0 => [[1, 2], [2, 1]], 1 => "a", 2 => "b"},
              ["b", "a"],
              0
+           ) == {{false, []}, {true, []}}
+
+    assert Day19.matches_rule(
+             %{0 => [1, 2], 1 => [[3, 4], [3]], 2 => [3], 3 => "a", 4 => "b"},
+             "aba" |> String.codepoints(),
+             0
            ) == {true, []}
+
+    assert Day19.matches_rule(
+             %{0 => [1, 2], 1 => [[3, 4], [3]], 2 => [3], 3 => "a", 4 => "b"},
+             "aa" |> String.codepoints(),
+             0
+           ) == {true, []}
+
+    assert Day19.matches_rule(
+             %{0 => [1, 2], 1 => [[3, 4], [3]], 2 => [3], 3 => "a", 4 => "b"},
+             "aab" |> String.codepoints(),
+             0
+           ) == {true, ["b"]}
   end
 
   test "p1: default example" do
@@ -73,6 +91,19 @@ defmodule Aoc2020Day19Test do
   test "p1: full" do
     res = Day19.part1(@full_data)
     assert res == 142
+  end
+
+  test "p2: default example pars" do
+    rules =
+      @example_2
+      |> Enum.at(0)
+      |> Day19.parse_rules()
+      |> Map.put(8, [[42], [42, 8]])
+      |> Map.put(11, [[42, 31], [42, 11, 31]])
+
+    IO.inspect(rules, charlists: :as_lists)
+
+    assert Day19.matches_rule(rules, "bbabbbbaabaabba" |> String.codepoints(), 0) == {true, []}
   end
 
   test "p2: default example" do

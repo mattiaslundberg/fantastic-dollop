@@ -33,6 +33,13 @@ defmodule Aoc2020.Day19 do
 
   def matches_rule(_, [], _), do: {false, []}
 
+  def matches_rule(rules, {message1, message2}, rule_id) do
+    normalize(
+      matches_rule(rules, message2, rule_id),
+      matches_rule(rules, message1, rule_id)
+    )
+  end
+
   def matches_rule(rules, message, rule_id) do
     rule = Map.get(rules, rule_id)
 
@@ -49,28 +56,41 @@ defmodule Aoc2020.Day19 do
   end
 
   defp check_branch(rules, message, l1, l2) do
-    {res1, rem1} = check_list(rules, message, l1)
-    {res2, rem2} = check_list(rules, message, l2)
-
-    case {res1, res2} do
-      {true, false} -> {true, rem1}
-      {false, true} -> {true, rem2}
-      {true, true} -> {true, :FIXME}
-      {false, false} -> {false, []}
-    end
+    {check_list(rules, message, l1), check_list(rules, message, l2)}
   end
 
   defp check_list(_, message, []), do: {true, message}
 
   defp check_list(rules, message, [r | rr]) do
-    {res, rem} = matches_rule(rules, message, r)
+    case matches_rule(rules, message, r) do
+      {{true, rem1}, {true, rem2}} ->
+        a = check_list(rules, rem1, rr)
+        b = check_list(rules, rem2, rr)
+        normalize(a, b)
 
-    if res do
-      check_list(rules, rem, rr)
-    else
-      {false, []}
+      {{true, rem}, _} when is_list(rem) ->
+        check_list(rules, rem, rr)
+
+      {_, {true, rem}} when is_list(rem) ->
+        check_list(rules, rem, rr)
+
+      {true, rem} when is_list(rem) ->
+        check_list(rules, rem, rr)
+
+      {{false, _}, {false, _}} ->
+        {false, []}
+
+      {false, rem} when is_list(rem) ->
+        {false, []}
     end
   end
+
+  def normalize({true, []}, _), do: {true, []}
+  def normalize(_, {true, []}), do: {true, []}
+  def normalize({true, rem}, {false, _}), do: {true, rem}
+  def normalize({false, _}, {true, rem}), do: {true, rem}
+  def normalize({true, rem}, {true, rem1}), do: {true, {rem, rem1}}
+  def normalize(_, _), do: {false, []}
 
   def parse_rules(rule_input) do
     rule_input |> String.split("\n") |> Enum.reduce(Map.new(), &parse_rule_line/2)
