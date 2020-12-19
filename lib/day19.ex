@@ -13,8 +13,22 @@ defmodule Aoc2020.Day19 do
     end)
   end
 
-  def part2(_input) do
-    :ok
+  def part2([rule_input, messages_input]) do
+    rules =
+      rule_input
+      |> parse_rules()
+      |> Map.put(8, [[42], [42, 8]])
+      |> Map.put(11, [[42, 31], [42, 11, 31]])
+
+    messages_input
+    |> String.split("\n")
+    |> Enum.map(fn m ->
+      matches_rule(rules, m |> String.codepoints(), 0)
+    end)
+    |> Enum.reduce(0, fn
+      {true, []}, r -> r + 1
+      _, r -> r
+    end)
   end
 
   def matches_rule(_, [], _), do: {false, []}
