@@ -23,7 +23,7 @@ defmodule Aoc2020.Day19 do
     messages_input
     |> String.split("\n")
     |> Enum.map(fn m ->
-      matches_rule(rules, m |> String.codepoints(), 0)
+      matches_rule(rules, String.codepoints(m), 0)
     end)
     |> Enum.reduce(0, fn
       {true, []}, r -> r + 1
@@ -60,11 +60,16 @@ defmodule Aoc2020.Day19 do
     end
   end
 
-  defp check_list(rules, message, l) do
-    Enum.reduce(l, {true, message}, fn
-      _, {false, rem} -> {false, rem}
-      r, {true, rem} -> matches_rule(rules, rem, r)
-    end)
+  defp check_list(_, message, []), do: {true, message}
+
+  defp check_list(rules, message, [r | rr]) do
+    {res, rem} = matches_rule(rules, message, r)
+
+    if res do
+      check_list(rules, rem, rr)
+    else
+      {false, []}
+    end
   end
 
   def parse_rules(rule_input) do
