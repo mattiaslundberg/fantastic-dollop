@@ -10,6 +10,10 @@ defmodule Aoc2020Day19Test do
                 |> String.trim()
                 |> String.split("\n\n")
 
+  @example_2 File.read!("inputs/day19_example2.txt")
+             |> String.trim()
+             |> String.split("\n\n")
+
   test "parse rules" do
     assert Day19.parse_rules(Enum.at(@example_data, 0)) == %{
              0 => [4, 1, 5],
@@ -62,14 +66,17 @@ defmodule Aoc2020Day19Test do
     assert Day19.part1(@example_data) == 2
   end
 
+  test "p1: default example 2" do
+    assert Day19.part1(@example_2) == 3
+  end
+
   test "p1: full" do
     res = Day19.part1(@full_data)
     assert res == 142
   end
 
-  @tag :skip
   test "p2: default example" do
-    assert Day19.part2(@example_data) == :ok
+    assert Day19.part2(@example_2) == 12
   end
 
   @tag :skip
