@@ -106,6 +106,7 @@ defmodule Aoc2020Day19Test do
     assert Day19.matches_rule(rules, "bbabbbbaabaabba" |> String.codepoints(), 0) == {true, []}
   end
 
+  @tag :skip
   test "p2: default example" do
     assert Day19.part2(@example_2) == 12
   end
